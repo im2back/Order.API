@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.im2back.Order.Api.model.Category;
+import com.github.im2back.Order.Api.model.category.Category;
 import com.github.im2back.Order.Api.repositories.CategoryRepository;
 
 @Service
