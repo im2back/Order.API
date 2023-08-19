@@ -2,6 +2,7 @@ package com.github.im2back.Order.Api.model.order;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.im2back.Order.Api.model.product.Product;
 
 import jakarta.persistence.EmbeddedId;
@@ -21,7 +22,7 @@ public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private OrderItemPk id;
+	private OrderItemPk id= new OrderItemPk();
 	
 	@Getter @Setter
 	private Integer quantity;
@@ -36,6 +37,7 @@ public class OrderItem implements Serializable {
 		this.price = price;
 	}
 	
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
