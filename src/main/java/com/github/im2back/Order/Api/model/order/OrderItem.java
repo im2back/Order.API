@@ -29,6 +29,8 @@ public class OrderItem implements Serializable {
 	@Getter @Setter
 	private Double price;
 	
+	
+	
 	public OrderItem(Order order, Product product,Integer quantity, Double price) {
 		super();
 		id.setOrder(order);
@@ -45,6 +47,7 @@ public class OrderItem implements Serializable {
 	public void setOrder(Order order) {
 		this.setOrder(order);
 	}
+	
 	
 	public Product getProduct() {
 		return id.getProduct();
