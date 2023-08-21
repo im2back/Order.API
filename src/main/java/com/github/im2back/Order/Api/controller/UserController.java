@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.github.im2back.Order.Api.model.user.CadastroUserDTO;
+import com.github.im2back.Order.Api.model.user.DadosAtualizacaoUsuario;
 import com.github.im2back.Order.Api.model.user.DadosDetalhamentoUsuario;
 import com.github.im2back.Order.Api.model.user.User;
 import com.github.im2back.Order.Api.services.UserService;
@@ -59,4 +61,11 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PutMapping(value = "/{id}")
+	@Transactional
+	ResponseEntity<DadosDetalhamentoUsuario> updateUser(@PathVariable Long id, @RequestBody DadosAtualizacaoUsuario dados) {
+		var retorno = service.updateUser(id, dados);
+		
+		return ResponseEntity.ok(new DadosDetalhamentoUsuario(retorno));
+	}
 }

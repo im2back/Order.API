@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.im2back.Order.Api.model.user.User;
 import com.github.im2back.Order.Api.model.user.CadastroUserDTO;
+import com.github.im2back.Order.Api.model.user.DadosAtualizacaoUsuario;
 import com.github.im2back.Order.Api.repositories.UserRepository;
 
 @Service
@@ -34,6 +35,17 @@ public class UserService {
 
 	public void deleteUser(Long id) {
 		repository.deleteById(id);
+	}
+	
+	public User updateUser(Long id, DadosAtualizacaoUsuario dados) {
+		var entity = repository.findById(id);
+		User user = entity.get();
+		user.updateUser(dados);
+		
+		
+		
+		return user;
+		
 	}
 
 }

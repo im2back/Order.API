@@ -68,6 +68,18 @@ public class User implements Serializable{
 		this.password = cadastroUserDTO.password();
 	}
 	
+	public void updateUser(DadosAtualizacaoUsuario dados) {
+	        if (dados.name() != null) {
+	            this.name = dados.name();
+	        }
+	        if (dados.email() != null) {
+	            this.email = dados.email();
+	        }
+	        if (dados.phone() != null) {
+	            this.phone = dados.phone();
+	        }
+
+	    }
 
 	
 }
