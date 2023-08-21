@@ -3,6 +3,7 @@ package com.github.im2back.Order.Api.model.payment;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.im2back.Order.Api.model.order.Order;
 
 import jakarta.persistence.Entity;
@@ -37,6 +38,7 @@ public class Payment implements Serializable {
 	
 	@OneToOne
 	@MapsId
+	@JsonIgnore
 	private Order order;
 
 }
