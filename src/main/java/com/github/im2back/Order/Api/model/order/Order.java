@@ -6,8 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.im2back.Order.Api.model.payment.Payment;
 import com.github.im2back.Order.Api.model.user.User;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -17,6 +19,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -59,6 +62,10 @@ public class Order  implements Serializable{
 	@Getter
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
+	
+	@Getter @Setter
+	@OneToOne(mappedBy = "order", cascade =CascadeType.ALL)
+	private Payment payment;
 
 	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 		super();

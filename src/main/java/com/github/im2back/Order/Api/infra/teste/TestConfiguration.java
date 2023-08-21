@@ -12,6 +12,7 @@ import com.github.im2back.Order.Api.model.category.Category;
 import com.github.im2back.Order.Api.model.order.Order;
 import com.github.im2back.Order.Api.model.order.OrderItem;
 import com.github.im2back.Order.Api.model.order.OrderStatus;
+import com.github.im2back.Order.Api.model.payment.Payment;
 import com.github.im2back.Order.Api.model.product.Product;
 import com.github.im2back.Order.Api.model.user.User;
 import com.github.im2back.Order.Api.repositories.CategoryRepository;
@@ -87,7 +88,10 @@ public class TestConfiguration implements CommandLineRunner {
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
 		
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
 		
+		o1.setPayment(pay1);
+		orderRepository.save(o1);
 	} 
 	
 
