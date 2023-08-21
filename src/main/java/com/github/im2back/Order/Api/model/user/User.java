@@ -60,5 +60,14 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
+	public User(CadastroUserDTO cadastroUserDTO) {
+		super();
+		this.name = cadastroUserDTO.name();
+		this.email = cadastroUserDTO.email();
+		this.phone = cadastroUserDTO.phone();
+		this.password = cadastroUserDTO.password();
+	}
+	
+
 	
 }

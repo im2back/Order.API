@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.im2back.Order.Api.model.user.User;
+import com.github.im2back.Order.Api.model.user.CadastroUserDTO;
 import com.github.im2back.Order.Api.repositories.UserRepository;
 
 @Service
@@ -23,4 +24,16 @@ public class UserService {
 		Optional<User> user = repository.findById(id);
 		return user.get();
 	}
+	
+	public User insertUser(CadastroUserDTO user) {
+		User newUser = new User(user);
+		
+		return repository.save(newUser);
+		
+	}
+
+	public void deleteUser(Long id) {
+		repository.deleteById(id);
+	}
+
 }
