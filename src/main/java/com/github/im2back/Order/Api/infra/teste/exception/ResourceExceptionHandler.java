@@ -21,4 +21,14 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(status).body(error);
 		
 	}
+		
+	@ExceptionHandler(DataBaseException.class)
+		public ResponseEntity<StandardError> DataBaseException(DataBaseException e, HttpServletRequest request) {
+		String msg = "could not execute statement";
+		HttpStatus status = HttpStatus.CONFLICT;	
+		StandardError error = new StandardError(status.value(),msg,e.getMessage(),request.getRequestURI());
+		return ResponseEntity.status(status).body(error);
+		
+		}
+	
 }
