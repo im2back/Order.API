@@ -23,14 +23,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity
-@Table(name= "tb_user")
+@Table(name= "tabela_user") 
 public class User implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
 	@Getter @Setter	
 	private Long id;
 	
