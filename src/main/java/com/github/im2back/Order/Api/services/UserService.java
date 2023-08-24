@@ -1,6 +1,7 @@
 package com.github.im2back.Order.Api.services;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,7 @@ public class UserService {
 			User user = entity.get();
 			user.updateUser(dados);
 			return user;
-		} catch (RuntimeException e) {
-			e.printStackTrace();
+		} catch (NoSuchElementException e) {
 			throw new ResourceNotFoundException(id);
 		}
 
