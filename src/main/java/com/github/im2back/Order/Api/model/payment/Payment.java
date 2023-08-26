@@ -23,7 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @EqualsAndHashCode(of = "id")
-@Table(name = "tb_payment")
+@Table(name = "tabela_payment")
 public class Payment implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

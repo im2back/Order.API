@@ -21,6 +21,7 @@ public class ProductService {
 	
 	public Product findById(Long id) {
 		Optional<Product> user = repository.findById(id);
-		return user.get();
+		Product product = user.get();
+		return product;
 	}
 }

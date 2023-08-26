@@ -27,7 +27,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "tb_product")
+@Table(name = "tabela_product")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -53,9 +53,10 @@ public class Product implements Serializable {
 	@Setter
 	private String imgUrl;
 
-	@ManyToMany
-	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	
+	@JoinTable(name="tabela_product_category", joinColumns = @JoinColumn(name="product_id"), inverseJoinColumns = @JoinColumn(name="category_id") )
 	@Getter
+	@ManyToMany
 	private Set<Category> categories = new HashSet<>();
 
 	

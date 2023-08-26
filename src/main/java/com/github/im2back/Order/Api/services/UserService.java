@@ -1,5 +1,6 @@
 package com.github.im2back.Order.Api.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import com.github.im2back.Order.Api.infra.teste.exception.DataBaseException;
 import com.github.im2back.Order.Api.infra.teste.exception.ResourceNotFoundException;
 import com.github.im2back.Order.Api.model.user.CadastroUserDTO;
 import com.github.im2back.Order.Api.model.user.DadosAtualizacaoUsuario;
+import com.github.im2back.Order.Api.model.user.DadosDetalhamentoUsuario;
 import com.github.im2back.Order.Api.model.user.User;
 import com.github.im2back.Order.Api.repositories.UserRepository;
 
@@ -56,6 +58,16 @@ public class UserService {
 			throw new ResourceNotFoundException(id);
 		}
 
+	}
+	
+	public List<DadosDetalhamentoUsuario> detailedUser(List<User> user) {
+		List<DadosDetalhamentoUsuario> list = new ArrayList<>();
+		for (User x : user) {
+			new DadosDetalhamentoUsuario(x);
+			list.add(new DadosDetalhamentoUsuario(x));
+		}
+	  return	list;
+		
 	}
 
 }

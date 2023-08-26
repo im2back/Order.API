@@ -30,16 +30,19 @@ public class UserController {
 	private UserService service;
 	
 	@GetMapping
-	ResponseEntity<List<User>> findAll() {
+	ResponseEntity <List<DadosDetalhamentoUsuario>> findAll() {
 		List<User> user = service.findAll();
-		return ResponseEntity.ok().body(user);
+		List<DadosDetalhamentoUsuario> detailed = service.detailedUser(user);
+		return ResponseEntity.ok().body(detailed);
 	}
 	
 	
+	@SuppressWarnings("rawtypes")
 	@GetMapping(value = "/{id}")
-	ResponseEntity<User> findById(@PathVariable Long id) {
+	ResponseEntity findById(@PathVariable Long id) {
 		User user = service.findById(id);
-		return ResponseEntity.ok().body(user);
+		DadosDetalhamentoUsuario detailed = new DadosDetalhamentoUsuario(user);
+		return ResponseEntity.ok().body(detailed);
 	}
 	
 	
@@ -49,7 +52,8 @@ public class UserController {
 	ResponseEntity insertUser(@RequestBody CadastroUserDTO cadastroUserDTO, UriComponentsBuilder uriBuilder) {
 		
 		User user = service.insertUser(cadastroUserDTO);
-		var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(user.getId()).toUri();
+		
+		var uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
 		
 		return ResponseEntity.created(uri).body(new DadosDetalhamentoUsuario(user));
 	}

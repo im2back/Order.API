@@ -1,4 +1,4 @@
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS tabela_user (
     id SERIAL primary key,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,

@@ -8,21 +8,20 @@ import com.github.im2back.Order.Api.model.product.Product;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@EqualsAndHashCode(of = "id")
 @NoArgsConstructor
-@Table(name= "tb_order_item")
+@Table(name= "tabela_order_item")
 public class OrderItem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 
 	@EmbeddedId
-	private OrderItemPk id= new OrderItemPk();
+	private OrderItemPk id = new OrderItemPk();
 	
 	@Getter @Setter
 	private Integer quantity;
@@ -38,6 +37,7 @@ public class OrderItem implements Serializable {
 		this.quantity = quantity;
 		this.price = price;
 	}
+
 	
 	@JsonIgnore
 	public Order getOrder() {
@@ -45,7 +45,7 @@ public class OrderItem implements Serializable {
 	}
 	
 	public void setOrder(Order order) {
-		this.setOrder(order);
+		id.setOrder(order);
 	}
 	
 	
@@ -53,14 +53,45 @@ public class OrderItem implements Serializable {
 		return id.getProduct();
 	}
 	
-	public void setProduct(Order product) {
-		this.setOrder(product);
+	public void setProduct(Product product) {
+		id.setProduct(product);
 	}
+	
+	
 	
 	public Double getSubTotal() {
 		
 		return quantity*price;
 		
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OrderItem other = (OrderItem) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	
 	
 }
