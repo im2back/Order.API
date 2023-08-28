@@ -19,10 +19,12 @@ public class ProductController {
 	@Autowired
 	private ProductService service;
 	
+	@SuppressWarnings("rawtypes")
 	@GetMapping
-	ResponseEntity<List<Product>> findAll() {
+	ResponseEntity findAll() {
 		List<Product> user = service.findAll();
 		return ResponseEntity.ok().body(user);
+		
 	}
 	
 	

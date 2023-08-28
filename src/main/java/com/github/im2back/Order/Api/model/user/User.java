@@ -59,7 +59,7 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
-	public User(CadastroUserDTO cadastroUserDTO) {
+	public User(UserRegistrationDTO cadastroUserDTO) {
 		super();
 		this.name = cadastroUserDTO.name();
 		this.email = cadastroUserDTO.email();
@@ -67,7 +67,7 @@ public class User implements Serializable{
 		this.password = cadastroUserDTO.password();
 	}
 	
-	public void updateUser(DadosAtualizacaoUsuario dados) {
+	public void updateUser(UpdateUserDTO dados) {
 	        if (dados.name() != null) {
 	            this.name = dados.name();
 	        }

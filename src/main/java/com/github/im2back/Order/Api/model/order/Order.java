@@ -54,13 +54,14 @@ public class Order  implements Serializable{
 	private OrderStatus orderStatus;
 	
 	
-	@Getter
-	@Setter
+	
+	@Setter @Getter
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private User client;
 	
 	
+	@Setter
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
 	
@@ -74,6 +75,8 @@ public class Order  implements Serializable{
 		this.moment = moment;
 		this.orderStatus = orderStatus;
 		this.client = client;
+		
+		 
 	} 
 
 	
@@ -118,6 +121,8 @@ public class Order  implements Serializable{
 			return false;
 		return true;
 	}
+
+	
  	
 	
 }

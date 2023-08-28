@@ -7,13 +7,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.github.im2back.Order.Api.infra.teste.exception.DataBaseException;
 import com.github.im2back.Order.Api.infra.teste.exception.ResourceNotFoundException;
-import com.github.im2back.Order.Api.model.user.CadastroUserDTO;
-import com.github.im2back.Order.Api.model.user.DadosAtualizacaoUsuario;
-import com.github.im2back.Order.Api.model.user.DadosDetalhamentoUsuario;
+import com.github.im2back.Order.Api.model.user.UserRegistrationDTO;
+import com.github.im2back.Order.Api.model.user.UpdateUserDTO;
+import com.github.im2back.Order.Api.model.user.DetailUserDTO;
 import com.github.im2back.Order.Api.model.user.User;
 import com.github.im2back.Order.Api.repositories.UserRepository;
 
@@ -23,8 +25,8 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 
-	public List<User> findAll() {
-		return repository.findAll();
+	public Page<DetailUserDTO> findAll(Pageable paginacao) {
+		return repository.findAll(paginacao).map(DetailUserDTO::new);
 	}
 
 	public User findById(Long id) {
@@ -32,7 +34,7 @@ public class UserService {
 		return user.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
-	public User insertUser(CadastroUserDTO user) {
+	public User insertUser(UserRegistrationDTO user) {
 		User newUser = new User(user);
 
 		return repository.save(newUser);
@@ -47,7 +49,7 @@ public class UserService {
 		}
 	}
 
-	public User updateUser(Long id, DadosAtualizacaoUsuario dados) {
+	public User updateUser(Long id, UpdateUserDTO dados) {
 
 		try {
 			var entity = repository.findById(id);
@@ -60,11 +62,11 @@ public class UserService {
 
 	}
 	
-	public List<DadosDetalhamentoUsuario> detailedUser(List<User> user) {
-		List<DadosDetalhamentoUsuario> list = new ArrayList<>();
+	public List<DetailUserDTO> detailedUser(List<User> user) {
+		List<DetailUserDTO> list = new ArrayList<>();
 		for (User x : user) {
-			new DadosDetalhamentoUsuario(x);
-			list.add(new DadosDetalhamentoUsuario(x));
+			new DetailUserDTO(x);
+			list.add(new DetailUserDTO(x));
 		}
 	  return	list;
 		

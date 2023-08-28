@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.im2back.Order.Api.model.order.DadosOrderItem;
+import com.github.im2back.Order.Api.model.order.AddOrderItemDTO;
 import com.github.im2back.Order.Api.model.order.Order;
 import com.github.im2back.Order.Api.model.order.OrderItem;
+import com.github.im2back.Order.Api.model.order.CreateNewOrderItemResponseDTO;
 import com.github.im2back.Order.Api.model.product.Product;
 import com.github.im2back.Order.Api.services.OrderItemService;
 import com.github.im2back.Order.Api.services.OrderService;
@@ -21,33 +22,34 @@ public class OrderItemController {
 	
 	@Autowired
 	private OrderItemService service;
-	
 	@Autowired
 	private OrderService orderService;
 	@Autowired
 	private ProductService productService;
 	
 	@PostMapping
-	 @SuppressWarnings("rawtypes")
-	ResponseEntity createOI(@RequestBody DadosOrderItem dados) {
+	@SuppressWarnings("rawtypes")
+	ResponseEntity createShoppingCart(@RequestBody AddOrderItemDTO dados) {
 		
-		 
-		 
-		Order order =  orderService.findById(dados.idOrder());
-		
-		System.out.println("teste2 ");
-		
-		Product product =  productService.findById(dados.idProduct());
-		 
-		System.out.println("teste3");
+		 Order order =  orderService.findById(dados.idOrder());
+		 Product product =  productService.findById(dados.idProduct());
 		 var oi = new OrderItem(order, product, dados.quantity(), product.getPrice());
 		
-		OrderItem savedOI = service.insert(oi);
+		 service.insert(oi);
 		 
-		 return ResponseEntity.created(null).body(savedOI);
+		 CreateNewOrderItemResponseDTO resposta = new CreateNewOrderItemResponseDTO(oi.getOrder().getItems(), oi.getOrder().getTotal());
+		 return ResponseEntity.created(null).body(resposta);
 	 }
 	
 
-  
+	
+	
 
+	
+	
+	
+	
+	
+	
+	
 }

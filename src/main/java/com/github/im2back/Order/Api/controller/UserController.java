@@ -1,8 +1,10 @@
 package com.github.im2back.Order.Api.controller;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.github.im2back.Order.Api.model.user.CadastroUserDTO;
-import com.github.im2back.Order.Api.model.user.DadosAtualizacaoUsuario;
-import com.github.im2back.Order.Api.model.user.DadosDetalhamentoUsuario;
+import com.github.im2back.Order.Api.model.user.UserRegistrationDTO;
+import com.github.im2back.Order.Api.model.user.UpdateUserDTO;
+import com.github.im2back.Order.Api.model.user.DetailNewRegisteredUserDTO;
+import com.github.im2back.Order.Api.model.user.DetailUserDTO;
 import com.github.im2back.Order.Api.model.user.User;
 import com.github.im2back.Order.Api.services.UserService;
 
@@ -30,10 +33,13 @@ public class UserController {
 	private UserService service;
 	
 	@GetMapping
-	ResponseEntity <List<DadosDetalhamentoUsuario>> findAll() {
-		List<User> user = service.findAll();
-		List<DadosDetalhamentoUsuario> detailed = service.detailedUser(user);
-		return ResponseEntity.ok().body(detailed);
+	ResponseEntity <Page<DetailUserDTO>> findAll(@PageableDefault(size = 10, sort = { "id" }) Pageable paginacao) {
+		
+	
+		var userPage = service.findAll(paginacao);
+		
+		
+		return ResponseEntity.ok(userPage);
 	}
 	
 	
@@ -41,21 +47,21 @@ public class UserController {
 	@GetMapping(value = "/{id}")
 	ResponseEntity findById(@PathVariable Long id) {
 		User user = service.findById(id);
-		DadosDetalhamentoUsuario detailed = new DadosDetalhamentoUsuario(user);
+		DetailUserDTO detailed = new DetailUserDTO(user);
 		return ResponseEntity.ok().body(detailed);
 	}
 	
 	
-	@SuppressWarnings("rawtypes")
+	
 	@PostMapping
 	@Transactional
-	ResponseEntity insertUser(@RequestBody CadastroUserDTO cadastroUserDTO, UriComponentsBuilder uriBuilder) {
+	ResponseEntity<DetailNewRegisteredUserDTO> insertUser(@RequestBody UserRegistrationDTO cadastroUserDTO, UriComponentsBuilder uriBuilder) {
 		
 		User user = service.insertUser(cadastroUserDTO);
 		
 		var uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
 		
-		return ResponseEntity.created(uri).body(new DadosDetalhamentoUsuario(user));
+		return ResponseEntity.created(uri).body(new DetailNewRegisteredUserDTO(user));
 	}
 	
 	
@@ -67,9 +73,9 @@ public class UserController {
 
 	@PutMapping(value = "/{id}")
 	@Transactional
-	ResponseEntity<DadosDetalhamentoUsuario> updateUser(@PathVariable Long id, @RequestBody DadosAtualizacaoUsuario dados) {
+	ResponseEntity<DetailUserDTO> updateUser(@PathVariable Long id, @RequestBody UpdateUserDTO dados) {
 		var retorno = service.updateUser(id, dados);
 		
-		return ResponseEntity.ok(new DadosDetalhamentoUsuario(retorno));
+		return ResponseEntity.ok(new DetailUserDTO(retorno));
 	}
 }

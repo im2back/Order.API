@@ -41,7 +41,10 @@ public class OrderController {
 	@PostMapping
 	@Transactional
 	ResponseEntity insertOrder(@RequestBody Order order, UriComponentsBuilder uriBuilder){
-			Order order1 = service.insert(order);
+		
+		
+			Order order1 = new Order(null, order.getMoment(), order.getOrderStatus(), order.getClient());
+				service.insert(order1);
 			
 			var uri = uriBuilder.path("/orders/{id}").buildAndExpand(order1.getId()).toUri();
 			
