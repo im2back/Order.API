@@ -34,7 +34,7 @@ public class UserController {
 	private UserService service;
 	
 	@GetMapping
-	ResponseEntity <Page<DetailUserDTO>> findAll(@PageableDefault(size = 10, sort = { "id","name"}) Pageable paginacao,
+	ResponseEntity <Page<DetailUserDTO>> findAllUsers(@PageableDefault(size = 10, sort = { "id"}) Pageable paginacao,
 			@RequestParam(name = "page", defaultValue = "0")int pageNumber) {
 		
 	
@@ -45,19 +45,16 @@ public class UserController {
 	}
 	
 	
-	@SuppressWarnings("rawtypes")
 	@GetMapping(value = "/{id}")
-	ResponseEntity findById(@PathVariable Long id) {
+	ResponseEntity<DetailUserDTO> findByIdUser(@PathVariable Long id) {
 		User user = service.findById(id);
 		DetailUserDTO detailed = new DetailUserDTO(user);
 		return ResponseEntity.ok().body(detailed);
 	}
 	
-	
-	
 	@PostMapping
 	@Transactional
-	ResponseEntity<DetailNewRegisteredUserDTO> insertUser(@RequestBody UserRegistrationDTO cadastroUserDTO, UriComponentsBuilder uriBuilder) {
+	ResponseEntity<DetailNewRegisteredUserDTO> insertNewUser(@RequestBody UserRegistrationDTO cadastroUserDTO, UriComponentsBuilder uriBuilder) {
 		
 		User user = service.insertNewUser(cadastroUserDTO);
 		
@@ -76,8 +73,8 @@ public class UserController {
 	@PutMapping(value = "/{id}")
 	@Transactional
 	ResponseEntity<DetailUserDTO> updateUser(@PathVariable Long id, @RequestBody UpdateUserDTO dados) {
-		var retorno = service.updateUser(id, dados);
+		User updateUserReturn = service.updateUser(id, dados);
 		
-		return ResponseEntity.ok(new DetailUserDTO(retorno));
+		return ResponseEntity.ok(new DetailUserDTO(updateUserReturn));
 	}
 }

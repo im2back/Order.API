@@ -32,12 +32,14 @@ public class OrderItemController {
 	ResponseEntity createShoppingCart(@RequestBody AddOrderItemDTO dados) {
 		
 		 Order order =  orderService.findById(dados.idOrder());
-		 Product product =  productService.findById(dados.idProduct());
-		 var oi = new OrderItem(order, product, dados.quantity(), product.getPrice());
-		
-		 service.insert(oi);
+		 Product product =  productService.findByIdTwo(dados.idProduct());
 		 
-		 CreateNewOrderItemResponseDTO resposta = new CreateNewOrderItemResponseDTO(oi.getOrder().getItems(), oi.getOrder().getTotal());
+		 OrderItem newOrderItem = new OrderItem(order, product, dados.quantity(), product.getPrice());
+		
+		 service.insert(newOrderItem);
+		 
+		 CreateNewOrderItemResponseDTO resposta = new CreateNewOrderItemResponseDTO(newOrderItem.getOrder().getItems(),
+				 newOrderItem.getOrder().getTotal());
 		 return ResponseEntity.created(null).body(resposta);
 	 }
 	
