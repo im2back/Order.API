@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -33,7 +34,8 @@ public class UserController {
 	private UserService service;
 	
 	@GetMapping
-	ResponseEntity <Page<DetailUserDTO>> findAll(@PageableDefault(size = 10, sort = { "id" }) Pageable paginacao) {
+	ResponseEntity <Page<DetailUserDTO>> findAll(@PageableDefault(size = 10, sort = { "id","name"}) Pageable paginacao,
+			@RequestParam(name = "page", defaultValue = "0")int pageNumber) {
 		
 	
 		var userPage = service.findAll(paginacao);
@@ -57,7 +59,7 @@ public class UserController {
 	@Transactional
 	ResponseEntity<DetailNewRegisteredUserDTO> insertUser(@RequestBody UserRegistrationDTO cadastroUserDTO, UriComponentsBuilder uriBuilder) {
 		
-		User user = service.insertUser(cadastroUserDTO);
+		User user = service.insertNewUser(cadastroUserDTO);
 		
 		var uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
 		

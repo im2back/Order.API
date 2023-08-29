@@ -34,7 +34,7 @@ public class UserService {
 		return user.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
-	public User insertUser(UserRegistrationDTO user) {
+	public User insertNewUser(UserRegistrationDTO user) {
 		User newUser = new User(user);
 
 		return repository.save(newUser);
