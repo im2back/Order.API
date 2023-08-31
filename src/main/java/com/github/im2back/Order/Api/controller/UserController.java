@@ -74,7 +74,8 @@ public class UserController {
 	@Transactional
 	ResponseEntity<DetailUserDTO> updateUser(@PathVariable Long id, @RequestBody UpdateUserDTO dados) {
 		User updateUserReturn = service.updateUser(id, dados);
+		var returnUpdate = new DetailUserDTO(updateUserReturn);
 		
-		return ResponseEntity.ok(new DetailUserDTO(updateUserReturn));
+		return ResponseEntity.ok(returnUpdate);
 	}
 }

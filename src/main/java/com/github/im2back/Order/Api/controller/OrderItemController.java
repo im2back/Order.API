@@ -1,5 +1,7 @@
 package com.github.im2back.Order.Api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,13 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.im2back.Order.Api.model.order.AddOrderItemDTO;
-import com.github.im2back.Order.Api.model.order.Order;
-import com.github.im2back.Order.Api.model.order.OrderItem;
 import com.github.im2back.Order.Api.model.order.CreateNewOrderItemResponseDTO;
-import com.github.im2back.Order.Api.model.product.Product;
+import com.github.im2back.Order.Api.model.order.Order;
 import com.github.im2back.Order.Api.services.OrderItemService;
 import com.github.im2back.Order.Api.services.OrderService;
-import com.github.im2back.Order.Api.services.ProductService;
 
 @RestController
 @RequestMapping(value = "items")
@@ -24,34 +23,23 @@ public class OrderItemController {
 	private OrderItemService service;
 	@Autowired
 	private OrderService orderService;
-	@Autowired
-	private ProductService productService;
+
 	
 	@PostMapping
-	@SuppressWarnings("rawtypes")
-	ResponseEntity createShoppingCart(@RequestBody AddOrderItemDTO dados) {
+	
+	ResponseEntity <CreateNewOrderItemResponseDTO> saveNewOrderItem(@RequestBody List<AddOrderItemDTO> dados) {
 		
-		 Order order =  orderService.findById(dados.idOrder());
-		 Product product =  productService.findByIdTwo(dados.idProduct());
+		service.insertNewOrderItems(dados);
 		 
-		 OrderItem newOrderItem = new OrderItem(order, product, dados.quantity(), product.getPrice());
-		
-		 service.insert(newOrderItem);
+		 AddOrderItemDTO getElement = dados.get(0); 
+		 Order order =  orderService.findById(getElement.idOrder());
+		 CreateNewOrderItemResponseDTO responseList = new CreateNewOrderItemResponseDTO(order);
 		 
-		 CreateNewOrderItemResponseDTO resposta = new CreateNewOrderItemResponseDTO(newOrderItem.getOrder().getItems(),
-				 newOrderItem.getOrder().getTotal());
-		 return ResponseEntity.created(null).body(resposta);
+		 return ResponseEntity.created(null).body(responseList);
 	 }
 	
 
-	
-	
 
-	
-	
-	
-	
-	
 	
 	
 }
