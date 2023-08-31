@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.github.im2back.Order.Api.model.order.Order;
+import com.github.im2back.Order.Api.model.order.OrderDTO;
 import com.github.im2back.Order.Api.services.OrderService;
 
 import jakarta.transaction.Transactional;
@@ -23,32 +24,42 @@ public class OrderController {
 	
 	@Autowired
 	private OrderService service;
+		
 	
-	@GetMapping
-	ResponseEntity<List<Order>> findAll() {
-		List<Order> user = service.findAll();
-		return ResponseEntity.ok().body(user);
+	@GetMapping(value = "/{userid}")
+	ResponseEntity <List<OrderDTO>> findAllOrders(@PathVariable Long userid) {
+		
+	    var response = service.findAllOrders(userid);
+			
+		return ResponseEntity.ok().body(response);
 	}
 	
 	
-	@GetMapping(value = "/{id}")
-	ResponseEntity<Order> findById(@PathVariable Long id) {
-		Order user = service.findById(id);
-		return ResponseEntity.ok().body(user);
-	}
+	@GetMapping(value = "/{idOrder}/user/{idUser}")
+	ResponseEntity<OrderDTO> findByIdOrder(@PathVariable Long idOrder,@PathVariable Long idUser) {
+	
+			Order getOrder = service.findByIdOrder(idOrder, idUser);
+				var responseOrder = new OrderDTO(getOrder);
+			
+					if (getOrder != null) {
+						return ResponseEntity.ok().body(responseOrder);
+							} else {
+								return ResponseEntity.notFound().build();
+									}
+										}
+	
 	
 	@SuppressWarnings("rawtypes")
 	@PostMapping
 	@Transactional
-	ResponseEntity insertOrder(@RequestBody Order order, UriComponentsBuilder uriBuilder){
-		
-		
-			Order order1 = new Order(null, order.getMoment(), order.getOrderStatus(), order.getClient());
-				service.insert(order1);
+	ResponseEntity saveNewOrder(@RequestBody Order order, UriComponentsBuilder uriBuilder){
 			
-			var uri = uriBuilder.path("/orders/{id}").buildAndExpand(order1.getId()).toUri();
+			var orderSave = service.insertNewOrder(order);
+			var orderResponse = new OrderDTO(orderSave);
+				
+			var uri = uriBuilder.path("/orders/{id}").buildAndExpand(orderSave.getId()).toUri();
 			
-			return ResponseEntity.created(uri).body(order1);
+			return ResponseEntity.created(uri).body(orderResponse);
 			
 		
 	}
