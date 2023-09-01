@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.im2back.Order.Api.model.order.AddOrderItemDTO;
-import com.github.im2back.Order.Api.model.order.CreateNewOrderItemResponseDTO;
+import com.github.im2back.Order.Api.model.order.AddNewOrderItemRequestDTO;
+import com.github.im2back.Order.Api.model.order.AddNewOrderItemResponseDTO;
 import com.github.im2back.Order.Api.model.order.Order;
 import com.github.im2back.Order.Api.services.OrderItemService;
 import com.github.im2back.Order.Api.services.OrderService;
@@ -27,13 +27,13 @@ public class OrderItemController {
 	
 	@PostMapping
 	
-	ResponseEntity <CreateNewOrderItemResponseDTO> saveNewOrderItem(@RequestBody List<AddOrderItemDTO> dados) {
+	ResponseEntity <AddNewOrderItemResponseDTO> saveNewOrderItem(@RequestBody List<AddNewOrderItemRequestDTO> dados) {
 		
 		service.insertNewOrderItems(dados);
 		 
-		 AddOrderItemDTO getElement = dados.get(0); 
+		 AddNewOrderItemRequestDTO getElement = dados.get(0); 
 		 Order order =  orderService.findById(getElement.idOrder());
-		 CreateNewOrderItemResponseDTO responseList = new CreateNewOrderItemResponseDTO(order);
+		 AddNewOrderItemResponseDTO responseList = new AddNewOrderItemResponseDTO(order);
 		 
 		 return ResponseEntity.created(null).body(responseList);
 	 }

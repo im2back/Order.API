@@ -1,6 +1,6 @@
 package com.github.im2back.Order.Api.model.user;
 
-public record DetailNewRegisteredUserDTO(
+public record AddNewUserResponseDTO(
 		Long id,
 		String name,
 		String email,
@@ -10,7 +10,7 @@ public record DetailNewRegisteredUserDTO(
 		) {
 	
 
-	public DetailNewRegisteredUserDTO(User user) {
+	public AddNewUserResponseDTO(User user) {
 				this(user.getId(),user.getName(),user.getEmail(),user.getPhone());
 				
 	}

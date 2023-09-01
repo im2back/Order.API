@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.github.im2back.Order.Api.model.user.UserRegistrationDTO;
+import com.github.im2back.Order.Api.model.user.AddNewUserRequestDTO;
 import com.github.im2back.Order.Api.model.user.UpdateUserDTO;
-import com.github.im2back.Order.Api.model.user.DetailNewRegisteredUserDTO;
+import com.github.im2back.Order.Api.model.user.AddNewUserResponseDTO;
 import com.github.im2back.Order.Api.model.user.DetailUserDTO;
 import com.github.im2back.Order.Api.model.user.User;
 import com.github.im2back.Order.Api.services.UserService;
@@ -54,13 +54,13 @@ public class UserController {
 	
 	@PostMapping
 	@Transactional
-	ResponseEntity<DetailNewRegisteredUserDTO> insertNewUser(@RequestBody UserRegistrationDTO cadastroUserDTO, UriComponentsBuilder uriBuilder) {
+	ResponseEntity<AddNewUserResponseDTO> insertNewUser(@RequestBody AddNewUserRequestDTO cadastroUserDTO, UriComponentsBuilder uriBuilder) {
 		
 		User user = service.insertNewUser(cadastroUserDTO);
 		
 		var uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
 		
-		return ResponseEntity.created(uri).body(new DetailNewRegisteredUserDTO(user));
+		return ResponseEntity.created(uri).body(new AddNewUserResponseDTO(user));
 	}
 	
 	

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.im2back.Order.Api.model.category.Category;
+import com.github.im2back.Order.Api.model.category.CategoryAllAttributesDTO;
 import com.github.im2back.Order.Api.services.CategoryService;
 
 @RestController
@@ -20,16 +20,20 @@ public class CategoryController {
 	private CategoryService service;
 	
 	@GetMapping
-	ResponseEntity<List<Category>> findAll() {
-		List<Category> user = service.findAll();
-		return ResponseEntity.ok().body(user);
+	ResponseEntity<List<CategoryAllAttributesDTO>> findAll() {
+		
+		List<CategoryAllAttributesDTO> categoryResponse = service.findAll();
+		
+		return ResponseEntity.ok().body(categoryResponse);
 	}
 	
 	
 	@GetMapping(value = "/{id}")
-	ResponseEntity<Category> findById(@PathVariable Long id) {
-		Category user = service.findById(id);
-		return ResponseEntity.ok().body(user);
+	ResponseEntity<CategoryAllAttributesDTO> findById(@PathVariable Long id) {
+		
+		CategoryAllAttributesDTO categoryResponse = service.findById(id);
+		
+		return ResponseEntity.ok().body(categoryResponse);
 	}
 	
 	

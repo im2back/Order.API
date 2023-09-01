@@ -7,7 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.im2back.Order.Api.model.order.AddOrderItemDTO;
+import com.github.im2back.Order.Api.model.order.AddNewOrderItemRequestDTO;
 import com.github.im2back.Order.Api.model.order.Order;
 import com.github.im2back.Order.Api.model.order.OrderItem;
 import com.github.im2back.Order.Api.model.product.Product;
@@ -25,10 +25,10 @@ public class OrderItemService {
 	
 	
 	
-	public void insertNewOrderItems(List<AddOrderItemDTO> dados) {
+	public void insertNewOrderItems(List<AddNewOrderItemRequestDTO> dados) {
 		
 		Set<OrderItem> newCart = new HashSet<>();
-		for(AddOrderItemDTO element : dados) {
+		for(AddNewOrderItemRequestDTO element : dados) {
 			Order order =  orderService.findById(element.idOrder());
 		 		Product product =  productService.findByIdTwo(element.idProduct());
 		 			OrderItem newOrderItem = new OrderItem(order, product, element.quantity(), product.getPrice());

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.im2back.Order.Api.infra.teste.exception.DataBaseException;
 import com.github.im2back.Order.Api.infra.teste.exception.ResourceNotFoundException;
-import com.github.im2back.Order.Api.model.user.UserRegistrationDTO;
+import com.github.im2back.Order.Api.model.user.AddNewUserRequestDTO;
 import com.github.im2back.Order.Api.model.user.UpdateUserDTO;
 import com.github.im2back.Order.Api.model.user.DetailUserDTO;
 import com.github.im2back.Order.Api.model.user.User;
@@ -34,7 +34,7 @@ public class UserService {
 		return user.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
-	public User insertNewUser(UserRegistrationDTO user) {
+	public User insertNewUser(AddNewUserRequestDTO user) {
 		User newUser = new User(user);
 
 		return repository.save(newUser);
